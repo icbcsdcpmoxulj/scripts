@@ -7,29 +7,31 @@ if "%2"=="" goto displayusage
 if "%3"=="" goto displayusage
 if "%4"=="" goto displayusage
 if "%5"=="" goto displayusage
+if "%6"=="" goto displayusage
+if "%7"=="" goto displayusage
 
 goto deploy
 
 
 :displayusage
-echo 用法:
-echo deploy.bat groupId artifactId version packaging file
+echo Usage:
+echo deploy.bat groupId artifactId version packaging file repoId repoUrl
 echo.
-echo 注：以上五个参数都不得为空。
+echo Note: All the 7 parameters above should not be null. 
 goto end
 
 
 :deploy
-echo 上传构件前请再次确认所输信息是否正确:
+echo Please check before deploying
 echo groupId: %1
 echo artifactId: %2
 echo version: %3
 echo packaging: %4
 echo file: %5
-choice /m "确认上传构件？"
+choice /m "Are you sure to deploy?"
 if not "%errorlevel%"=="1" goto end
 echo Deploying %5 ...
-mvn deploy:deploy-file -DgroupId=%1 -DartifactId=%2 -Dversion=%3 -Dpackaging=%4 -Dfile=%5 -Durl=http://122.16.61.59:9000/nexus/content/repositories/my-repo/ -DrepositoryId=xulj-maven-private-server >deploy.log
+mvn deploy:deploy-file -DgroupId=%1 -DartifactId=%2 -Dversion=%3 -Dpackaging=%4 -Dfile=%5 -DrepositoryId=%6 -Durl=%7 >deploy.log
 echo Deployment completed.
 
 
